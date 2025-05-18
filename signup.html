@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>현석 로그인</title>
+  <title>회원가입</title>
   <style>
     * {
       box-sizing: border-box;
@@ -20,12 +20,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 60px; /* 위쪽 여백 */
+      padding-top: 60px; /* 위에서 살짝 띄우기 */
     }
 
-    h2 {
-      margin-bottom: 20px;
+    h1 {
       color: #000;
+      margin-bottom: 20px;
     }
 
     .form-box {
@@ -37,6 +37,7 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      z-index: 1;
     }
 
     .form-box form,
@@ -48,7 +49,8 @@
       align-items: center;
     }
 
-    input, button {
+    input,
+    button {
       padding: 10px;
       width: 100%;
       margin-bottom: 10px;
@@ -58,7 +60,7 @@
     }
 
     button {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
       font-weight: bold;
       border: none;
@@ -67,13 +69,13 @@
     }
 
     button:hover {
-      background-color: #0056b3;
+      background-color: #218838;
     }
 
     @media (max-width: 768px) {
       .form-box {
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
         padding: 20px;
       }
 
@@ -86,38 +88,38 @@
   </style>
 </head>
 <body>
-  <h2>현석 놀이터</h2>
+  <h1>회원가입</h1>
   <div class="form-box">
-    <h2>로그인</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-      <p id="result"></p>
+    <form id="signupForm">
+      <input type="text" id="newUsername" placeholder="Username" required />
+      <input type="password" id="newPassword" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+      <p id="signupResult"></p>
     </form>
-    <p>계정이 없으신가요?</p>
-    <a href="signup.html"><button>회원가입</button></a>
+    <a href="login.html"><button>로그인으로 돌아가기</button></a>
   </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+      const username = document.getElementById("newUsername").value;
+      const password = document.getElementById("newPassword").value;
 
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const found = users.find(u => u.username === user && u.password === pass);
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const duplicate = users.find(u => u.username === username);
 
-      const resultTag = document.getElementById("result");
-      if (found) {
-        resultTag.innerText = "로그인 성공!";
-        resultTag.style.color = "green";
-        localStorage.setItem("currentUser", user);
-        window.location.href = "https://finance.naver.com/item/main.nhn?code=005930";
-      } else {
-        resultTag.innerText = "아이디 또는 비밀번호가 틀렸습니다.";
-        resultTag.style.color = "red";
+      const resultEl = document.getElementById("signupResult");
+
+      if (duplicate) {
+        resultEl.innerText = "이미 존재하는 아이디입니다.";
+        resultEl.style.color = "red";
+        return;
       }
+
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      resultEl.innerText = "회원가입 완료!";
+      resultEl.style.color = "green";
     });
   </script>
 </body>
