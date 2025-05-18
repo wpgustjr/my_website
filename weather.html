@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>현재 위치 날씨</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>현재 위치의 날씨 정보</h1>
+  <p id="location">위치 불러오는 중...</p>
+  <p id="weather">날씨 정보를 가져오는 중...</p>
+
+  <script>
+    // OpenWeatherMap API 키 (테스트용, 본인 키로 교체 가능)
+    const API_KEY = "0a4a508fdc4e2a1cee01a1eb35412470"; // ← 여기에 본인 API 키 입력
+
+    // 위치 가져오기
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      document.getElementById("location").innerText = `위도: ${lat.toFixed(4)}, 경도: ${lon.toFixed(4)}`;
+
+      // 날씨 정보 가져오기
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`)
+        .then(res => res.json())
+        .then(data => {
+          const weather = data.weather[0].description;
+          const temp = data.main.temp;
+          document.getElementById("weather").innerText = `날씨: ${weather}, 온도: ${temp}°C`;
+        })
+        .catch(err => {
+          document.getElementById("weather").innerText = "날씨 정보를 불러오지 못했습니다.";
+        });
+    }, function () {
+      document.getElementById("location").innerText = "위치 접근을 허용해야 합니다.";
+    });
+  </script>
+</body>
+</html>
