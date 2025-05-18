@@ -12,7 +12,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-image: url('제주도3.jpg');
+      background-image: url('제주도4.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -72,19 +72,24 @@
       background-color: #218838;
     }
 
-    @media (max-width: 768px) {
-      .form-box {
-        width: 100%;
-        max-width: 280px;
-        padding: 20px;
-      }
+   @media (max-width: 768px) {
+  body {
+    background-image: url('제주도4.jpg'); /* 모바일 전용 배경 */
+  }
 
-      input,
-      button {
-        font-size: 14px;
-        padding: 8px;
-      }
-    }
+  .form-box {
+    width: 100%;
+    max-width: 280px;
+    padding: 20px;
+  }
+
+  input,
+  button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
   </style>
 </head>
 <body>
